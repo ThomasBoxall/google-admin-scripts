@@ -23,6 +23,12 @@ function getDescriptionFromEvent(event) {
       let chPwUserEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
       return `Changed password for ${chPwUserEmail.value}`
       break;
+    case 'CHANGE_USER_LANGUAGE':
+      let chLgwEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
+      let oldLang = event.parameters.find(x => x.name == 'OLD_VALUE');
+      let newLang = event.parameters.find(x => x.name == 'NEW_VALUE');
+      return `Language changed for ${chLgwEmail.value} from ${oldLang.value} to ${newLang.value}`;
+      break;
     case 'CREATE_GROUP':
       let newGroupName = event.parameters.find(x => x.name == 'GROUP_EMAIL');
       return `Created group ${newGroupName.value}`;
@@ -48,6 +54,12 @@ function getDescriptionFromEvent(event) {
       let movedOrgUnit = event.parameters.find(x => x.name == 'ORG_UNIT_NAME');
       let newLoc = event.parameters.find(x => x.name == 'NEW_VALUE');
       return `Moved Organisational Unit ${movedOrgUnit.value} to ${newLoc.value}`;
+      break;
+    case 'MOVE_USER_TO_ORG_UNIT':
+      let movedUsersEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
+      let oldOrgUnit = event.parameters.find(x => x.name == 'ORG_UNIT_NAME');
+      let newOrgUnit = event.parameters.find(x => x.name == 'NEW_VALUE');
+      return `${movedUsersEmail.value} moved from ${oldOrgUnit.value} to ${newOrgUnit.value}`;
       break;
     case 'REMOVE_GROUP_MEMBER':
       let removedUserEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
