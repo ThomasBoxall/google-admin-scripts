@@ -2,6 +2,9 @@
 
 A Python (yes bringing out the big mallet here) script to nuke all permissions on Google Groups because they're unruley and possibly being a bit leaky around GDPR...
 
+Usual bit of PIP-ing to get some packages ship shape:
+`pip install google-api-python-client google-auth-httplib2 google-auth-oauthlib`
+
 Needs a Google Cloud Project setup with the following APIs enabled:
 * Admin SDK API
 * Groups Settings API
