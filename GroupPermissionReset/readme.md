@@ -21,4 +21,6 @@ Will go through every group in the domain and set settings as specified in the `
 
 Check your all@ group carefully afterwards. It might be a bit broke. 
 
+Has to be run per domain in the `DOMAIN` var if multiple domains in the Tennant.
+
 Credits to Gemini for some of the code. Cheers bestie. xx
