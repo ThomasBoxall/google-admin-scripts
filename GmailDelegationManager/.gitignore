@@ -1,0 +1,4 @@
+# Delegation Manager's git ignore
+
+# any json service account files
+service_account_key.json
