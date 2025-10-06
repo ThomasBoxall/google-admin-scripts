@@ -16,8 +16,26 @@ function getDescriptionFromEvent(event) {
       let userEmailParam = event.parameters.find(x => x.name == 'USER_EMAIL');
       return `Added ${userEmailParam.value} to group ${groupNameParam.value}`;
       break;
+    case 'ADD_NICKNAME':
+      return `${event.parameters.find(x => x.name == 'USER_NICKNAME').value} created as a nickname of ${event.parameters.find(x => x.name == 'USER_EMAIL').value}`;
+      break;
     case 'ALERT_CENTER_VIEW':
       return `Alert Centre Viewed`;
+      break;
+    case 'CHANGE_FIRST_NAME':
+      return `First name of ${event.parameters.find(x => x.name == 'USER_EMAIL').value} changed from ${event.parameters.find(x => x.name == 'OLD_VALUE').value} to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
+      break;
+    case 'CHANGE_GROUP_DESCRIPTION':
+      return `Description for group ${event.parameters.find(x => x.name == 'GROUP_EMAIL').value} changed`;
+      break;
+    case 'CHANGE_GROUP_EMAIL':
+      return `Email of group ${event.parameters.find(x => x.name == 'GROUP_EMAIL').value} changed to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
+      break;
+    case 'CHANGE_GROUP_NAME':
+      return `Name of group ${event.parameters.find(x => x.name == 'GROUP_EMAIL').value} changed to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
+      break;
+    case 'CHANGE_GROUP_SETTING':
+      return `${event.parameters.find(x => x.name == 'SETTING_NAME').value} for group ${event.parameters.find(x => x.name == 'GROUP_EMAIL').value} changed from ${event.parameters.find(x => x.name == 'OLD_VALUE').value} to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
       break;
     case 'CHANGE_PASSWORD':
       let chPwUserEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
@@ -28,6 +46,12 @@ function getDescriptionFromEvent(event) {
       let oldLang = event.parameters.find(x => x.name == 'OLD_VALUE');
       let newLang = event.parameters.find(x => x.name == 'NEW_VALUE');
       return `Language changed for ${chLgwEmail.value} from ${oldLang.value} to ${newLang.value}`;
+      break;
+    case 'CHANGE_USER_ORGANIZATION':
+      return `Organizations changed for ${event.parameters.find(x => x.name == 'USER_EMAIL').value} from ${event.parameters.find(x => x.name == 'OLD_VALUE').value} to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
+      break;
+    case 'CHANGE_USER_RELATION':
+      return `Relations changed for ${event.parameters.find(x => x.name == 'USER_EMAIL').value} from ${event.parameters.find(x => x.name == 'OLD_VALUE').value} to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
       break;
     case 'CREATE_GROUP':
       let newGroupName = event.parameters.find(x => x.name == 'GROUP_EMAIL');
@@ -40,6 +64,15 @@ function getDescriptionFromEvent(event) {
     case 'CREATE_USER':
       let newUserEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
       return `Created user ${newUserEmail.value}`;
+      break;
+    case 'DELETE_GROUP':
+      return `Group ${event.parameters.find(x => x.name == 'GROUP_EMAIL').value} deleted`;
+      break;
+    case 'DELETE_PROFILE_PHOTO':
+      return `Profile Photo of ${event.parameters.find(x => x.name == 'USER_EMAIL').value} has been deleted`;
+      break;
+    case 'DELETE_USER':
+      return `${event.parameters.find(x => x.name == 'USER_EMAIL').value} deleted`;
       break;
     case 'EDIT_ORG_UNIT_DESCRIPTION':
       let newDescription = event.parameters.find(x => 'ORG_UNIT_NAME');
@@ -61,14 +94,23 @@ function getDescriptionFromEvent(event) {
       let newOrgUnit = event.parameters.find(x => x.name == 'NEW_VALUE');
       return `${movedUsersEmail.value} moved from ${oldOrgUnit.value} to ${newOrgUnit.value}`;
       break;
+    case 'REMOVE_API_CLIENT_ACCESS':
+      return `API client access to your organisation from client ${event.parameters.find(x => x.name == 'API_CLIENT_NAME').value} removed`
+      break;
     case 'REMOVE_GROUP_MEMBER':
       let removedUserEmail = event.parameters.find(x => x.name == 'USER_EMAIL');
       let removedFromGroup = event.parameters.find(x => x.name == 'GROUP_EMAIL');
       return `Removed ${removedUserEmail.value} from ${removedFromGroup.value}`;
       break;
+    case 'REMOVE_NICKNAME':
+      return `${event.parameters.find(x => x.name == 'USER_NICKNAME').value} deleted as a nickname of ${event.parameters.find(x => x.name == 'USER_EMAIL').value}`;
+      break;
     case 'REMOVE_ORG_UNIT':
       let orgUnitName = event.parameters.find(x => x.name == 'ORG_UNIT_NAME');
       return `Deleted Organisational Unit ${orgUnitName.value}`;
+      break;
+    case 'RENAME_USER':
+      return `${event.parameters.find(x => x.name == 'USER_EMAIL').value} renamed to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
       break;
     case 'SECURITY_INVESTIGATION_QUERY':
       let dataSource = event.parameters.find(x => x.name == 'INVESTIGATION_DATA_SOURCE');
@@ -79,6 +121,11 @@ function getDescriptionFromEvent(event) {
       let suspendedUserEmail = event.parameters.find(x => x.name == 'USER_EMAIL')
       return `Suspended user ${suspendedUserEmail.value}`;
       break;
+    case 'UPDATE_GROUP_MEMBER':
+      return `Role of the user ${event.parameters.find(x => x.name == 'USER_EMAIL').value} in group ${event.parameters.find(x => x.name == 'GROUP_EMAIL').value} updated from ${event.parameters.find(x => x.name == 'OLD_VALUE').value} to ${event.parameters.find(x => x.name == 'NEW_VALUE').value}`;
+      break;
+    case 'UPDATE_PROFILE_PHOTO':
+      return `Profile photo of ${event.parameters.find(x => x.name == 'USER_EMAIL').value} has been updated`
     default:
       return `Unprogrammed Event Type: ${event}`;
       break;
@@ -124,7 +171,7 @@ function GetAdminLogEventsSevenDays() {
   rows.sort((a,b) => a.date - b.date);
   // now build output
   emailContent = "<h1>Admin Log Events, last 7 days</h1>"
-
+  Logger.log(rows.length);
   if (rows.length > 0){
     emailContent += "<table> <tr> <th style='border-bottom: 1px solid black'>Event</th> <th style='border-bottom: 1px solid black'>Actor</th> <th style='border-bottom: 1px solid black'>Date</th> <th style='border-bottom: 1px solid black'>Description</th> </tr>";
     for (let i=0; i<rows.length; i++){
@@ -136,6 +183,7 @@ function GetAdminLogEventsSevenDays() {
     emailContent += "No records found."
   }
     emailContent += `<p style='font-size:0.7em'>Generated at ${new Date(Date.now())} by GetAdminLogEventsSevenDays Script</p>`
+
 
   
   MailApp.sendEmail({
