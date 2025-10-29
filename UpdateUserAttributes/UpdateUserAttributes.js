@@ -25,6 +25,11 @@ function updateUserAttributes(){
 function processUser(userRecord){
   // we work through various attributes building payloads that can then be inserted into the push method to update the user
 
+  // name attributes: first name, surname
+  let namePayload = {};
+  namePayload.givenName = userRecord[1];
+  namePayload.familyName = userRecord[2];
+
   // organisational attributes: job title, department, employee type (description)
   let organisationsPayload = [];
   organisationsPayload.push({
@@ -61,6 +66,7 @@ function processUser(userRecord){
   
   // construct final resource to patch
   let resource = {};
+  resource.name = namePayload;
   resource.organizations = organisationsPayload;
   resource.phones = phonesPayload;
   resource.addresses = addressesPayload;

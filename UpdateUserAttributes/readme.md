@@ -1,6 +1,8 @@
 # UpdateUserAttributes 
 
 Google Apps Script which updates the following user attributes within Google Admin:
+* First Name
+* Surname
 * Job Title
 * Type of Employee
 * Manager
@@ -12,8 +14,8 @@ Would be reasonably simple to add more attributes if needed, but this is all I n
 
 Needs a Google Sheet adding with the following Columns:
 * A - READ ONLY Primary Email
-* B - READ ONLY First Name
-* C - READ ONLY Surname
+* B - First Name
+* C - Surname
 * D - Job Title
 * E - Type of Employee
 * F - Manager
