@@ -378,7 +378,7 @@ function getEventDescription(event){
   if (eventParams){
     eventParams.forEach(param => {
       const placeholder = `{${param.name}}`;
-      const value = param.value || param.multiValue.join(', ');
+      const value = param.value || param.multiValue;
       constructedEventDescription = constructedEventDescription.replace(placeholder, value);
     });
   }
